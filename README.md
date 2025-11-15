@@ -54,80 +54,14 @@ Bitcask is ideal for workloads with high write throughput and where keys fit in 
 
 ## Project Structure
 ```bitcask/
-├── bitcask/
-│   ├── __init__.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── bitcask.py
-│   │   ├── data_file.py
-│   │   ├── hint_file.py
-│   │   ├── keydir.py
-│   │   └── exceptions.py
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   ├── crc.py
-│   │   ├── serialization.py
-│   │   └── file_utils.py
-│   └── cli/
-│       ├── __init__.py
-│       ├── main.py
-│       └── commands.py
-├── tests/
-│   ├── __init__.py
-│   ├── test_bitcask.py
-│   ├── test_data_file.py
-│   ├── test_keydir.py
-│   └── test_cli.py
-├── docs/
-│   ├── README.md
-│   ├── api.md
-│   └── examples/
-│       ├── basic_usage.py
-│       └── advanced_usage.py
-├── scripts/
-│   └── benchmark.py
-├── setup.py
-├── pyproject.toml
-├── requirements.txt
-├── requirements-dev.txt
-├── README.md
-├── LICENSE
-├── CHANGELOG.md
-├── .gitignore
-└── Makefile
+bitcask/
+├── __init__.py
+├── record.py
+├── file_manager.py
+├── index.py
+├── database.py
+└── monitoring.py
 ```
----
-
-## 🛠️ Usage
-
-```python
-from bitcask import Bitcask
-
-db = Bitcask('/path/to/db')
-
-# Set a value
-db.put(b'mykey', b'myvalue')
-
-# Get a value
-value = db.get(b'mykey')
-
-# Delete a key
-db.delete(b'mykey')
-
-# Read all keys
-print(db.keys())
-
-# Close the database
-db.close()
-```
-
----
-
-## 📈 Performance
-
-- **Write throughput**: Extremely high due to append-only design.
-- **Read latency**: Low, as keys are indexed in memory.
-- **Space efficiency**: Compaction keeps disk usage low.
 
 ---
 
