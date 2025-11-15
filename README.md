@@ -42,7 +42,7 @@ Bitcask is ideal for workloads with high write throughput and where keys fit in 
 
 1. **Write**: Data is appended to a log file. The in-memory index maps keys to file offsets.
 2. **Read**: The index is used to locate the value on disk quickly.
-3. **Delete**: A tombstone record is written to the log.
+3. **Delete**: A tombstone record is written to the log. 
 4. **Compaction**: Periodically, log files are merged to remove deleted/overwritten entries.
 
 ---
@@ -114,6 +114,9 @@ value = db.get(b'mykey')
 # Delete a key
 db.delete(b'mykey')
 
+# Read all keys
+print(db.keys())
+
 # Close the database
 db.close()
 ```
@@ -128,22 +131,6 @@ db.close()
 
 ---
 
-## 📝 Design Principles
-
-- **Simplicity**: Minimal dependencies, easy to understand.
-- **Durability**: Data is safe on disk after each write.
-- **Speed**: Optimized for SSDs and modern disks.
-
----
-
-## 📦 Installation
-
-```sh
-pip install bitcask
-```
-
----
-
 ## 🧪 Testing
 
 ```sh
@@ -155,19 +142,6 @@ pytest tests/
 ## 📄 License
 
 MIT © 2025 Manthan Patel
-
----
-
-## 🙏 Acknowledgements
-
-- Inspired by [Basho’s Bitcask](https://github.com/basho/bitcask)
-- Thanks to the open-source community!
-
----
-
-## 💬 Contributing
-
-Pull requests and issues are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
