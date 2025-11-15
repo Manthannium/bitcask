@@ -1,9 +1,9 @@
 """File Manager Module"""
 
 import os
-from typing import List
+from typing import List, Dict, Tuple, Generator, Optional
 
-from record import Record
+from .record import Record
 
 
 class FileManager:
@@ -84,3 +84,48 @@ class FileManager:
 
         # update file position to last valid offset
         self.file_position = offset
+
+    def compact_records(self, valid_records: Dict[str, bytes]) -> Dict[str, Tuple[int, int]]:
+        """
+        Compacts the log file by rewriting only valid records
+        Returns a mapping of keys to their new positions and sizes
+        """
+        # Create a temporary file for compaction
+        temp_file_path = self.base_path + ".tmp"
+        new_hash_table = {}
+        new_offset = 0
+
+        # Write valid records to a temporary file
+        with open(temp_file_path, 'wb') as temp_file:
+            for key, value in valid_records.items():
+                record = Record(key, value)
+                serialized_record = record.serialize()
+                temp_file.write(serialized_record)
+                
+                value_size = len(value)
+                new_hash_table[key] = (new_offset, value_size)
+                new_offset += len(serialized_record)
+
+        self.close_log_file()
+
+        # Replace old log file with compacted file
+        os.replace(temp_file_path, self.base_path)
+        self.open_log_file()
+        return new_hash_table 
+
+    def file_exists(self) -> bool:
+        """Checks if the log file exists"""
+        return os.path.exists(self.base_path)
+
+    def get_file_size(self) -> int:
+        """Returns the size of the log file"""
+        if self.file_exists():
+            return os.path.getsize(self.base_path)
+        return 0
+
+    def __enter__(self):
+        self.open_log_file()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_log_file()

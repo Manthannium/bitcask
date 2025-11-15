@@ -59,3 +59,6 @@ class Record:
         record = cls(key, value, is_tombstone)
         record.timestamp = timestamp
         return record, offset
+    
+    def __repr__(self):
+        return f"Record(key={self.key!r}, value={self.value!r}, is_tombstone={self.is_tombstone}, timestamp={self.timestamp})"

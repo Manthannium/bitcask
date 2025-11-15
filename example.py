@@ -1,21 +1,17 @@
-import bitcask
-from loguru import logger
+from bitcask import Bitcask
 
-def main():
-    logger.info("Bitcask module imported successfully")
+with Bitcask("my.db") as db:
+    db.put("name", b"Alice")
+    print(db.get("name"))  # Output: b'Alice'
+    print(db.keys())    # Output: ['name']
 
-    db = bitcask.Bitcask("/tmp/tcask")
-    db.put(b"key1", b"value1")
-    logger.info(f"Current keys in the database: {db.keys()}")
-    value = db.get(b"key1")
-    logger.info(f"Retrieved value: {value}")
-    db.delete(b"key1")
-    logger.info(f"Current keys in the database: {db.keys()}")
+    db.delete("name")
+    print(db.get("name"))  # Output: None
+    print(db.keys())    # Output: []
+    
+    db.put("age", b"30")
+    print(db.get("age"))  # Output: b'30'
+    print(db.size())  # Output: 1
+    db.compact()
+    print(db.size())  # Output: 1
 
-    db.close()
-
-    logger.info("Bitcask operations completed")
-
-
-if __name__ == "__main__":
-    main()
