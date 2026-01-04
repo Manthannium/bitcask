@@ -65,14 +65,6 @@ bitcask/
 
 ---
 
-## 🧪 Testing
-
-```sh
-pytest tests/
-```
-
----
-
 ## 📄 License
 
 MIT © 2025 Manthan Patel
